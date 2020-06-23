@@ -129,6 +129,7 @@ location ~ /#!# WP_CONTENT_URI #!#/cache/wp-rocket/.*html$ {
 	add_header X-Rocket-Nginx-Reason $rocket_reason;
 	add_header X-Rocket-Nginx-File $rocket_file;
 	add_header Strict-Transport-Security "$rocket_hsts_value";
+	add_header Content-Security-Policy "block-all-mixed-content;";
 	#!# HEADER_HTTP #!#
 	#!# HEADER_NON_GZIP #!#
 }
@@ -146,6 +147,7 @@ location ~ /#!# WP_CONTENT_URI #!#/cache/wp-rocket/.*_gzip$ {
 	add_header X-Rocket-Nginx-Reason $rocket_reason;
 	add_header X-Rocket-Nginx-File $rocket_file;
 	add_header Strict-Transport-Security "$rocket_hsts_value";
+	add_header Content-Security-Policy "block-all-mixed-content;";
 	#!# HEADER_HTTP #!#
 	#!# HEADER_GZIP #!#
 }
@@ -154,37 +156,3 @@ location ~ /#!# WP_CONTENT_URI #!#/cache/wp-rocket/.*_gzip$ {
 add_header X-Rocket-Nginx-Serving-Static $rocket_is_bypassed;
 add_header X-Rocket-Nginx-Reason $rocket_reason;
 add_header X-Rocket-Nginx-File $rocket_file;
-
-# No HSTS header added here. We suppose it's correctly added in the site configuration
-
-
-###################################################################################################
-# BROWSER CSS CACHE
-#
-location ~* \.css$ {
-	etag on;
-	gzip_vary on;
-	expires 30d;
-	#!# HEADER_CSS #!#
-}
-
-
-###################################################################################################
-# BROWSER JS CACHE
-#
-location ~* \.js$ {
-	etag on;
-	gzip_vary on;
-	expires 30d;
-	#!# HEADER_JS #!#
-}
-
-
-###################################################################################################
-# BROWSER MEDIA CACHE
-#
-location ~* \.(#!# EXTENSION_MEDIAS #!#)$ {
-	etag on;
-	expires 30d;
-	#!# HEADER_MEDIAS #!#
-}
